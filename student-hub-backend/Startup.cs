@@ -31,7 +31,11 @@ namespace student_hub_backend
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<EventContext>(x => x.UseSqlServer(Configuration.GetConnectionString("ConStr")));
+            services.AddDbContext<RoleContext>(x => x.UseSqlServer(Configuration.GetConnectionString("ConStr")));
+
             services.AddScoped<IEventService, EventService>();
+            services.AddScoped<IRoleService, RoleService>();
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
