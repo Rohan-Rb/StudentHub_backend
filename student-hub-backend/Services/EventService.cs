@@ -9,8 +9,8 @@ namespace student_hub_backend.Services
     public class EventService : IEventService
     {
 
-        private EventContext _context;
-        public EventService(EventContext context)
+        private MyDBContext _context;
+        public EventService(MyDBContext context)
         {
             _context = context;
         }

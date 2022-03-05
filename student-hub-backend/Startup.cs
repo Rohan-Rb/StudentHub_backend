@@ -30,11 +30,13 @@ namespace student_hub_backend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<EventContext>(x => x.UseSqlServer(Configuration.GetConnectionString("ConStr")));
-            services.AddDbContext<RoleContext>(x => x.UseSqlServer(Configuration.GetConnectionString("ConStr")));
+            services.AddDbContext<MyDBContext>(x => x.UseSqlServer(Configuration.GetConnectionString("ConStr")));
+            /*services.AddDbContext<RoleContext>(x => x.UseSqlServer(Configuration.GetConnectionString("ConStr")));
+            services.AddDbContext<UserContext>(x => x.UseSqlServer(Configuration.GetConnectionString("ConStr")));*/
 
             services.AddScoped<IEventService, EventService>();
             services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<IUserService, UserService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

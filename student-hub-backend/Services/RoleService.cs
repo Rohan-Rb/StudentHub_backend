@@ -8,8 +8,8 @@ namespace student_hub_backend.Services
 {
     public class RoleService: IRoleService
     {
-        private RoleContext _context;
-        public RoleService(RoleContext context)
+        private MyDBContext _context;
+        public RoleService(MyDBContext context)
         {
             _context = context;
         }

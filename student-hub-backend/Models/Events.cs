@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -27,6 +28,12 @@ namespace student_hub_backend.Models
         public string Description { get; set; }
         public Boolean IsDeleted { get; set; }
         public DateTime DeletedDate { get; set; }
+
+        [Display(Name = "UserID")]
+        public virtual int UserID { get; set; }
+
+        [ForeignKey("UserID")]
+        public virtual Users Users { get; set; }
         /*public string UserID { get; set; }*/
     }
 }
