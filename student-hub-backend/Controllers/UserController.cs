@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using student_hub_backend.DTO;
 using student_hub_backend.Models;
 using System;
 using System.Collections.Generic;
@@ -52,8 +53,20 @@ namespace student_hub_backend.Controllers
             try
             {
                 var users = _userService.GetUserDetailsById(id);
-                if (users == null) return NotFound();
-                return Ok(users);
+                if (users == null)
+                {
+                    return NotFound();
+                }
+
+                var getUserDto = new GetUserDto
+                {
+                    FullAddress = $"{users.Street} {users.City} {users.State}",
+                    RoleTitle = users.Roles.RoleTitle,
+                    City = users.City,
+                    Email = users.Email
+                };
+                
+                return Ok(getUserDto);
             }
             catch (Exception)
             {
@@ -69,10 +82,24 @@ namespace student_hub_backend.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("/save")]
-        public IActionResult SaveUsers(Users userModel)
+        public IActionResult SaveUsers([FromBody]UserDto userDto)
         {
             try
             {
+                var userModel = new Users
+                {
+                    City = userDto.City,
+                    State = userDto.State,
+                    Street = userDto.Street,
+                    Email = userDto.Email,
+                    FirstName = userDto.FirstName,
+                    LastName = userDto.LastName,
+                    FullName = $"{userDto.FirstName} {userDto.LastName}",
+                    PrimaryPhone = userDto.PrimaryPhone,
+                    ProfileURL = userDto.ProfileURL,
+                    RoleID = userDto.RoleID
+                 };
+
                 var model = _userService.SaveUser(userModel);
                 return Ok(model);
             }

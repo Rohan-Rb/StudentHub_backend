@@ -1,4 +1,5 @@
-﻿using student_hub_backend.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using student_hub_backend.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +35,7 @@ namespace student_hub_backend.Services
             try
             {
                 users = _context.Find<Users>(userId);
+                users = _context.Users.Include(x => x.Roles).Where(user => user.UserID == userId).FirstOrDefault();
             }
             catch (Exception)
             {

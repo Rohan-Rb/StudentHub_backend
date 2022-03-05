@@ -9,18 +9,19 @@ namespace student_hub_backend.Models
     public class MyDBContext: DbContext
     {
         public MyDBContext(DbContextOptions options) : base(options) { }
-        DbSet<Events> Events
+        public DbSet<Events> Events
         {
             get;
             set;
         }
 
-        DbSet<Roles> Roles
+        public DbSet<Roles> Roles
         {
             get;
             set;
         }
-        DbSet<Users> Users
+
+        public DbSet<Users> Users
         {
             get;
             set;
