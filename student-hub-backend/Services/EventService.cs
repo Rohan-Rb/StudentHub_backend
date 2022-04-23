@@ -1,4 +1,5 @@
-﻿using student_hub_backend.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using student_hub_backend.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,8 @@ namespace student_hub_backend.Services
             List<Events> eventList;
             try
             {
-                eventList = _context.Set<Events>().ToList();
+                /*eventList = _context.Set<Events>().ToList();*/
+                eventList = _context.Events.Include(x => x.Users).ToList();
             }
             catch (Exception)
             {
@@ -35,6 +37,7 @@ namespace student_hub_backend.Services
             try
             {
                 events = _context.Find<Events>(eventId);
+                events = _context.Events.Include(x => x.Users).Where(events => events.EventID == eventId).FirstOrDefault();
             }
             catch (Exception)
             {
@@ -68,6 +71,8 @@ namespace student_hub_backend.Services
                     _temp.Description = eventModel.Description;
                     _temp.IsDeleted = eventModel.IsDeleted;
                     _temp.DeletedDate = eventModel.DeletedDate;
+                    _temp.UserID = eventModel.UserID;
+
                     _context.Update<Events>(_temp);
                     model.Messsage = "event Update Successfully";
                 }

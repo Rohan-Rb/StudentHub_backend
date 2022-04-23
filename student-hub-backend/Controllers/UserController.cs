@@ -31,8 +31,72 @@ namespace student_hub_backend.Controllers
             try
             {
                 var users = _userService.GetUsersList();
-                if (users == null) return NotFound();
-                return Ok(users);
+                if (users == null)
+                {
+                    return NotFound();
+                }
+
+                var getUserDto = users.Select(u => new GetUserDto 
+                {
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    UserName = $"{u.FirstName} {u.LastName}",
+                    PrimaryPhone = u.PrimaryPhone,
+                    SecondaryPhone = u.SecondaryPhone,
+                    Email = u.Email,
+                    /*City = u.City,
+                    State = u.State,
+                    Street = u.Street,*/
+                    FullAddress = $"{u.Street} {u.City} {u.State}",
+                    PasswordHash = u.PasswordHash,
+                    ProfileURL = u.ProfileURL,
+                    RoleID = u.RoleID,
+                    RoleTitle = u.Roles.RoleTitle
+                });
+                /*var getUserDto = from u in users
+                                 select new GetUserDto
+
+
+                                 {
+                                     FirstName = u.FirstName,
+                                     LastName = u.LastName,
+                                     UserName = $"{u.FirstName} {u.LastName}",
+                                     PrimaryPhone = u.PrimaryPhone,
+                                     SecondaryPhone = u.SecondaryPhone,
+                                     Email = u.Email,
+                                     *//*City = u.City,
+                                     State = u.State,
+                                     Street = u.Street,*//*
+                                     FullAddress = $"{u.Street} {u.City} {u.State}",
+                                     PasswordHash = u.PasswordHash,
+                                     ProfileURL = u.ProfileURL,
+                                     RoleID = u.RoleID,
+                                 };*/
+                /*var getUserDto = new GetUserDto
+                {
+                    FirstName = users[1].FirstName,
+                    LastName = users[1].LastName,
+                    UserName = $"{users[1].FirstName} {users[1].LastName}",
+                    PrimaryPhone = users[1].PrimaryPhone,
+                    SecondaryPhone = users[1].SecondaryPhone,
+                    Email = users[1].Email,
+                    *//*City = users.City,
+                    State = users.State,
+                    Street = users.Street,*//*
+                    FullAddress = $"{users[1].Street} {users[1].City} {users[1].State}",
+                    PasswordHash = users[1].PasswordHash,
+                    *//*FullName = $"{users.FirstName} {users.LastName}",*//*
+                    ProfileURL = users[1].ProfileURL,
+                    RoleID = users[1].RoleID,
+                    *//*RoleTitle = users[1].Roles.RoleTitle,*/
+
+
+                    /*RoleTitle = users.Roles.RoleTitle,
+                    City = users.City,
+                    Email = users.Email*//*
+                };*/
+
+                return Ok(getUserDto);
             }
             catch (Exception)
             {
@@ -60,10 +124,26 @@ namespace student_hub_backend.Controllers
 
                 var getUserDto = new GetUserDto
                 {
+                    FirstName = users.FirstName,
+                    LastName = users.LastName,
+                    UserName = $"{users.FirstName} {users.LastName}",
+                    PrimaryPhone = users.PrimaryPhone,
+                    SecondaryPhone = users.SecondaryPhone,
+                    Email = users.Email,
+                    /*City = users.City,
+                    State = users.State,
+                    Street = users.Street,*/
                     FullAddress = $"{users.Street} {users.City} {users.State}",
+                    PasswordHash = users.PasswordHash,
+                    /*FullName = $"{users.FirstName} {users.LastName}",*/
+                    ProfileURL = users.ProfileURL,
+                    RoleID = users.RoleID,
                     RoleTitle = users.Roles.RoleTitle,
-                    City = users.City,
-                    Email = users.Email
+
+
+                    /*RoleTitle = users.Roles.RoleTitle,*/
+                    /*City = users.City,*/
+                    /*Email = users.Email*/
                 };
                 
                 return Ok(getUserDto);
@@ -88,14 +168,17 @@ namespace student_hub_backend.Controllers
             {
                 var userModel = new Users
                 {
+                    FirstName = userDto.FirstName,
+                    LastName = userDto.LastName,
+                    UserName = $"{userDto.FirstName} {userDto.LastName}",
+                    PrimaryPhone = userDto.PrimaryPhone,
+                    SecondaryPhone = userDto.SecondaryPhone,
+                    Email = userDto.Email,
                     City = userDto.City,
                     State = userDto.State,
                     Street = userDto.Street,
-                    Email = userDto.Email,
-                    FirstName = userDto.FirstName,
-                    LastName = userDto.LastName,
-                    FullName = $"{userDto.FirstName} {userDto.LastName}",
-                    PrimaryPhone = userDto.PrimaryPhone,
+                    PasswordHash = userDto.PasswordHash,
+                    /*FullName = $"{userDto.FirstName} {userDto.LastName}",*/
                     ProfileURL = userDto.ProfileURL,
                     RoleID = userDto.RoleID
                  };

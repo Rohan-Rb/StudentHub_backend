@@ -13,9 +13,9 @@ namespace student_hub_backend.DTO
         public string PrimaryPhone { get; set; }
         public string? SecondaryPhone { get; set; }
         public string Email { get; set; }
-        public string State { get; set; }
+        /*public string State { get; set; }
         public string City { get; set; }
-        public string Street { get; set; }
+        public string Street { get; set; }*/
         public string FullAddress { get; set; }
         public string PasswordHash { get; set; }
         public DateTime RegisteredDate { get; set; }

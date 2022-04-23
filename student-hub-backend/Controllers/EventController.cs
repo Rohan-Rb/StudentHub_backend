@@ -1,14 +1,18 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using student_hub_backend.DTO;
 using student_hub_backend.Models;
 using student_hub_backend.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Http.Cors;
 
 namespace student_hub_backend.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     public class EventController : ControllerBase
@@ -31,7 +35,34 @@ namespace student_hub_backend.Controllers
             try
             {
                 var events = _eventService.GetEventsList();
-                if (events == null) return NotFound();
+                if (events == null)
+                {
+                    return NotFound();
+                }
+
+                var getEventDto = events.Select(e => new GetEventDto
+                {
+                    EventName = e.EventName,
+                    Banner = e.Banner,
+                    Organizer = e.Organizer,
+                    EventType = e.EventType,
+                    Date = e.Date,
+                    StartTime = e.StartTime,
+                    EndTime = e.EndTime,
+                    Cost = e.Cost,
+                    City = e.City,
+                    State = e.State,
+                    Venue = e.Venue,
+                    /*Address = $"{e.Venue}, {e.City}, {e.State}",*/
+                    Tickets = e.Tickets,
+                    TicketLink = e.TicketLink,
+                    Refund = e.Refund,
+                    Description = e.Description,
+                    IsDeleted = e.IsDeleted,
+                    DeletedDate = e.DeletedDate,
+                    UserID = e.UserID,
+                    UserName = e.Users.UserName
+                });
                 return Ok(events);
             }
             catch (Exception)
@@ -53,8 +84,35 @@ namespace student_hub_backend.Controllers
             try
             {
                 var events = _eventService.GetEventDetailsById(id);
-                if (events == null) return NotFound();
-                return Ok(events);
+                if (events == null)
+                {
+                    return NotFound();
+                }
+                var getEventDto = new GetEventDto
+                {
+                    EventName = events.EventName,
+                    Banner = events.Banner,
+                    Organizer = events.Organizer,
+                    EventType = events.EventType,
+                    Date = events.Date,
+                    StartTime = events.StartTime,
+                    EndTime = events.EndTime,
+                    Cost = events.Cost,
+                    City = events.City,
+                    State = events.State,
+                    Venue = events.Venue,
+                    /*Address = $"{events.Venue}, {events.City}, {events.State}",*/
+                    Tickets = events.Tickets,
+                    TicketLink = events.TicketLink,
+                    Refund = events.Refund,
+                    Description = events.Description,
+                    IsDeleted = events.IsDeleted,
+                    DeletedDate = events.DeletedDate,
+                    UserID = events.UserID,
+                    UserName = events.Users.UserName
+
+                };
+                return Ok(getEventDto);
             }
             catch (Exception)
             {
@@ -70,14 +128,44 @@ namespace student_hub_backend.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("[action]")]
-        public IActionResult SaveEvents(Events eventModel)
+        public IActionResult SaveEvents([FromForm] EventDto eventDto)
         {
             try
             {
+                string path = Path.Combine("F:\\student-hub-fyp\\public\\Images\\EventImages", eventDto.FileName);
+
+                using (Stream stream = new FileStream(path, FileMode.Create))
+                {
+                    eventDto.FormFile.CopyTo(stream);
+                }
+
+                    var eventModel = new Events
+                    {
+                        EventName = eventDto.EventName,
+                        Banner = "\\Images\\EventImages\\"+eventDto.FileName,
+                        Organizer = eventDto.Organizer,
+                        EventType = eventDto.EventType,
+                        Date = eventDto.Date,
+                        StartTime = eventDto.StartTime,
+                        EndTime = eventDto.EndTime,
+                        Cost = eventDto.Cost,
+                        City = eventDto.City,
+                        State = eventDto.State,
+                        Venue = eventDto.Venue,
+                        Tickets = eventDto.Tickets,
+                        TicketLink = eventDto.TicketLink,
+                        Refund = eventDto.Refund,
+                        Description = eventDto.Description,
+                        IsDeleted = eventDto.IsDeleted,
+                        DeletedDate = eventDto.DeletedDate,
+                        UserID = eventDto.UserID
+
+                    };
+
                 var model = _eventService.SaveEvent(eventModel);
                 return Ok(model);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return BadRequest();
             }

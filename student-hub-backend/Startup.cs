@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using student_hub_backend.Helpers;
 using student_hub_backend.Models;
 using student_hub_backend.Services;
 using System;
@@ -30,6 +31,8 @@ namespace student_hub_backend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            
+
             services.AddDbContext<MyDBContext>(x => x.UseSqlServer(Configuration.GetConnectionString("ConStr")));
             /*services.AddDbContext<RoleContext>(x => x.UseSqlServer(Configuration.GetConnectionString("ConStr")));
             services.AddDbContext<UserContext>(x => x.UseSqlServer(Configuration.GetConnectionString("ConStr")));*/
@@ -37,12 +40,29 @@ namespace student_hub_backend
             services.AddScoped<IEventService, EventService>();
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IJobService, JobService>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<JwtService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "student_hub_backend", Version = "v1" });
-            });  
+            });
+
+            services.AddCors(/*options =>
+                {
+                    options.AddDefaultPolicy(
+                     builder => builder.AllowAnyOrigin());
+
+                    *//*options.AddPolicy(
+                     "mypolicy",builder => builder.AllowAnyOrigin());*//*
+
+                }*/
+            );
+
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,6 +78,13 @@ namespace student_hub_backend
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(options => options
+            .WithOrigins(new []{ "http://localhost:3000"})
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials()
+                );
 
             app.UseAuthorization();
 

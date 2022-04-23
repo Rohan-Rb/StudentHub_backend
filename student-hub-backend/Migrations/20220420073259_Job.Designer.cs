@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using student_hub_backend.Models;
 
 namespace student_hub_backend.Migrations
 {
     [DbContext(typeof(MyDBContext))]
-    partial class MyDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220420073259_Job")]
+    partial class Job
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,8 +37,8 @@ namespace student_hub_backend.Migrations
                     b.Property<int>("Cost")
                         .HasColumnType("int");
 
-                    b.Property<string>("Date")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DeletedDate")
                         .HasColumnType("datetime2");
@@ -44,16 +46,13 @@ namespace student_hub_backend.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("EndTime")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("EventName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EventType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FileName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
@@ -65,8 +64,8 @@ namespace student_hub_backend.Migrations
                     b.Property<string>("Refund")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("StartTime")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("State")
                         .HasColumnType("nvarchar(max)");
@@ -110,9 +109,6 @@ namespace student_hub_backend.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Experience")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("JobBanner")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("JobDescription")
@@ -172,7 +168,7 @@ namespace student_hub_backend.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
@@ -209,10 +205,6 @@ namespace student_hub_backend.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserID");
-
-                    b.HasIndex("Email")
-                        .IsUnique()
-                        .HasFilter("[Email] IS NOT NULL");
 
                     b.HasIndex("RoleID");
 

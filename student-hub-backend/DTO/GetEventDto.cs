@@ -1,13 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace student_hub_backend.DTO
 {
-    public class EventDto
+    public class GetEventDto
     {
         public string EventName { get; set; }
         public string Banner { get; set; }
@@ -20,16 +18,14 @@ namespace student_hub_backend.DTO
         public string State { get; set; }
         public string City { get; set; }
         public string Venue { get; set; }
+        /* public string Address { get; set; }*/
         public Boolean Tickets { get; set; }
         public string TicketLink { get; set; }
         public string Refund { get; set; }
         public string Description { get; set; }
         public Boolean IsDeleted { get; set; }
         public DateTime DeletedDate { get; set; }
-        [NotMapped]
-        public string FileName { get; set; }
-        [NotMapped]
-        public IFormFile FormFile { get; set; }
         public int UserID { get; set; }
+        public string UserName { get; set; }
     }
 }

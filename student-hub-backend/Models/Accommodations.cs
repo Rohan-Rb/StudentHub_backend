@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace student_hub_backend.DTO
+namespace student_hub_backend.Models
 {
-    public class EventDto
+    public class Accommodations
     {
+        /*[Key]
+        public int AccommodationID { get; set; }
         public string EventName { get; set; }
         public string Banner { get; set; }
         public string Organizer { get; set; }
@@ -26,10 +26,12 @@ namespace student_hub_backend.DTO
         public string Description { get; set; }
         public Boolean IsDeleted { get; set; }
         public DateTime DeletedDate { get; set; }
-        [NotMapped]
-        public string FileName { get; set; }
-        [NotMapped]
-        public IFormFile FormFile { get; set; }
-        public int UserID { get; set; }
+
+
+        [Display(Name = "UserID")]
+        public virtual int UserID { get; set; }
+
+        [ForeignKey("UserID")]
+        public virtual Users Users { get; set; }*/
     }
 }

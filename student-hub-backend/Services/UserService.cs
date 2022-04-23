@@ -20,7 +20,12 @@ namespace student_hub_backend.Services
             List<Users> userList;
             try
             {
-                userList = _context.Set<Users>().ToList();
+                /*userList = _context.Set<Users>().ToList();*/
+                userList = _context.Users.Include(x => x.Roles).ToList();
+
+
+
+
             }
             catch (Exception)
             {

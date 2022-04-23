@@ -26,5 +26,17 @@ namespace student_hub_backend.Models
             get;
             set;
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder) {
+            modelBuilder.Entity<Users>(entity =>
+            {
+                entity.HasIndex(e => e.Email).IsUnique();
+            });
+        }
+        public DbSet<Job> Job
+        {
+            get;
+            set;
+        }
     }
 }
